@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+
+
+TODO Работа с кнопками в дереве.
+
+1) удалить - мдальное окно с судьбой детей
+2) редактировать - модальное окно с возможностью измнения имени, адреса, фотки (урл)
+3) $  - модальное окно с вводом суммы заработка с перераспределением по 10% по дереву и добавлением к существующим деньгам для этого человека
+-->
+
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> 
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="../PersonSelector/css/PS.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        
+        <script src="../PersonSelector/js/PS.js"></script>   
+        <script src="js/MMM.min.js"></script>   
+        <title></title>
+        <script>
+            
+              var treeMMM = new MMMTree();
+              
+             $(function()
+            {
+                var hash;
+                
+                var persons = [  
+                            {"url": "http://www.tvchoicemagazine.co.uk/sites/default/files/imagecache/interview_image/intex/michael_emerson.png",
+                               "name": "Alex",
+                               "adress": "Kiev", 
+                               "usd": 0
+                            },
+
+                            {"url": "http://ralfweiser.files.wordpress.com/2012/10/ralf-a6.jpg",
+                               "name": "Ralf",
+                               "adress": "Odessa",
+                               "usd": 0
+                            },
+
+                            {  "url": "http://www.firstpersonarts.org/wp-content/uploads/2010/08/Soledad-new-headshot-7-073.jpg",
+                               "name": "Mona",
+                               "adress": "Lisa",
+                               "usd": 0
+                            },
+                            {  "url": "http://kievpravda.com/media/images/8908/raw/2abacb2f878469b92a54a4b6f8794355.jpg",
+                               "name": "Yolka",
+                               "adress": "Rostov",
+                               "usd": 0
+                            },
+                            
+                            {  "url": "http://static1.businessinsider.com/image/52974d63ecad04ff058aec71/obamacare-faces-its-biggest-test-this-weekend.jpg",
+                               "name": "Barak",
+                               "adress": "Washinton" ,
+                               "usd": 0
+                            },
+                            
+                            {  "url": "http://polit.ru/media/photolib/2013/04/11/mavrodi_1365677082.png",
+                               "name": "Mavrodi",
+                               "adress": "Moskov" ,
+                               "usd": 0
+                            },
+                            {  "url": "http://demiart.ru/forum/uploads/post-45623-1196274032.jpg",
+                               "name": "House",
+                               "adress": "London",
+                               "usd": 0 
+                            },
+                            
+                            {  "url": "http://cs6.pikabu.ru/images/big_size_comm/2014-08_4/1408390144476.jpg",
+                               "name": "Batman",
+                               "adress": "Gotem",
+                               "usd": 0 
+                            },
+                            
+                             {  "url": "http://www.eegli.ru/uploads/images/topic/2012/02/14/c1e80eb7a7_500.jpg",
+                               "name": "Greeneyes",
+                               "adress": "Kashmir",
+                               "usd": 0 
+                             },
+                            
+                            {  "url": "http://www.freeoboi.ru/images/246384766.jpg",
+                               "name": "DiCaprio",
+                               "adress": "Buffalo",
+                               "usd": 0 
+                            },
+                            
+                            {  "url": "http://faces.org.ua/imgs/20130424183122_49.jpg",
+                               "name": "Mila",
+                               "adress": "Paris",
+                               "usd": 0 
+                            },
+                            
+                             {  "url": "http://img0.liveinternet.ru/images/attach/c/5/88/260/88260098_1824747_JlORWONik78.jpg",
+                               "name": "Patrick",
+                               "adress": "NY" ,
+                               "usd": 0
+                             },
+                             
+                             {  "url": "http://picsfab.com/download/image/102390/1920x1080_hand-rowan-atkinson-face.jpg",
+                               "name": "Rowen",
+                               "adress": "Liverpool",
+                               "usd": 0 
+                             },
+                            
+                            {  "url": "http://mediananny.com/content/images_new/news/620x408/121016.jpg",
+                               "name": "Barns",
+                               "adress": "Springfield" ,
+                               "usd": 0
+                            }                                
+                          ];
+                          
+               
+               //------Выводим на страницу с библиотеки ПерсонСелектор див
+                var k = $("#div1");
+                var treePerson = new PersonSelector(k); 
+                 
+                
+                //------загоняем людей в нашу библиоетку
+                
+               
+               for (var i = 0; i<persons.length; i++) 
+            {              
+              treePerson.addPerson(persons[i]);// здесь мы загоняем людей в нашу библиоетку                             
+            }
+            
+            
+            //------ добавляем людей в селектор Персонсов
+            
+            
+           
+    
+  //  <a> <i class="fa fa-trash"> </i> 
+            
+            
+            $(".buttonAdd").on("click", function()   // добавление человека в дерево и на страницу по человечно (при каждом клке на АДД)
+            {  
+                
+                var human = treePerson.getSelectPerson();     // объект выбранного человека
+              //  ($(".chooseParent option:selected").val()==0)?(treeMMM.addPerson(human, null)):(treeMMM.addPerson(human,$(".chooseParent option:selected").val())) ; //  добавляем челвека в дерево (базу данных)
+                var hashAdd = treeMMM.addPerson(human, ($(".chooseParent option:selected").val()==0)?null:$(".chooseParent option:selected").val()) //  добавляем челвека в дерево (базу данных), проверяя Мавроди он или нет
+                dumpTree(treeMMM); // функция показывающая консоль с глубиной дерева
+                buildTree(treeMMM); //рисуем человеков по получившемуся дереву
+                treePerson.removePerson(human.name); // удаляем человека с базы данных
+                
+                $(".chooseParent").append($("<option>").html(human.name).val(hashAdd));  // добавляем в велью хэш для каждого человека в дереве
+                $(".chooseParent option[value='0']").remove(); // удаяем из селекта строку No parent
+                
+                
+               /*var sel = $("<option>");
+                var div = $("<div>").addClass("borderDiv");
+                var span = $("<span>");
+                var a = $("<a>").addClass("aStyle").attr("href","#");
+                var iTrash = $("<i>").addClass("fa fa-trash");
+                var iUsd = $("<i>").addClass("fa fa-usd");
+                var iChange = $("<i>").addClass("fa fa-pencil-square-o");  
+                var human = treePerson.getSelectPerson();
+                var img = $("<img>").attr("src",human.url).addClass("imgStyle");
+                
+                */
+                    
+                              
+             //  $(".chooseParent").append((sel).html())
+             
+           /*    if ( $(".tree div").length > 0)
+               { 
+                       // выполняем когда добавляем в дерево не первого чеовека
+                       hash = treeMMM.addPerson(human, $(".chooseParent option:selected").val());
+                       
+                       var shift = treeMMM.getDeep(hash)*25; // отступы для детей и внуков в дереве
+                       shift = shift+"px";
+                       
+                        if ( $(".tree div[data-hash='" + $(".chooseParent option:selected").val() + "']").length > 0 ) // условие нахождения родителя для которого добавляем детей
+                  
+                {
+                
+                  div // строим дерево
+                        .append(img).append((span).addClass("name").html(human.name))
+                        .append((span.clone()).addClass("backs").html("$"))
+                        .append((span.clone()).addClass("adress").html(human.adress))
+                        .append((a).append(iTrash))
+                        .append( $("<a>").addClass("iUsdStyle").attr("href","#").append(iUsd) )
+                        .append( $("<a>").addClass("iChangeStyle").attr("href","#").append(iChange) ).css("margin-left",shift).attr("data-hash",hash).data("name",human.name)
+                        .insertAfter ( $(".tree div[data-hash='" + $(".chooseParent option:selected").val() + "']") );
+                        
+                        
+                        
+                        
+                        console.log("dfgdhdhehrth");
+                        
+                } 
+    
+    
+
+               }
+                
+                else    
+                {
+                    // Когда добавляем Мавроди
+                    hash = treeMMM.addPerson(human, null);
+                    
+                                       
+                $(".tree").append (
+                  div // добавляем Мавроди
+                        .append(img).append((span).addClass("name").html(human.name))
+                        .append((span.clone()).addClass("backs").html("$"))
+                        .append((span.clone()).addClass("adress").html(human.adress))
+                        .append((a).append(iTrash))
+                        .append( $("<a>").addClass("iUsdStyle").attr("href","#").append(iUsd) )
+                        .append( $("<a>").addClass("iChangeStyle").attr("href","#").append(iChange) ).css("margin-left",shift).attr("data-hash",hash).data("name",human.name));
+                        
+    
+                    $(".chooseParent option:eq(0)").remove();
+                    
+                    
+                   
+                   
+                   
+                };*/
+        
+       
+                
+                //  console.log(hash);
+                    
+                  
+                
+                  
+                  
+                 
+                
+                 
+                  
+                 
+                 
+                 
+                 
+                
+                 
+               
+         });
+         
+         
+         function dumpTree(treeMMM)
+         {
+            var  r =  treeMMM.getRootPerson();
+             
+           var rr = treeMMM.getChildren(r);
+           
+           //console.info(r, rr);
+             
+         }
+         
+         
+         function buildTree(treeMMM)       // рисуем дерево визуально по его текущему состоянию в базе данных (после добавления, удаления, редактирования, баксования)
+         {
+            $(".tree").html(""); 
+          //  var sel = $("<option>");
+            var div = $("<div>").addClass("borderDiv");
+            var span = $("<span>");
+            var a = $("<a>").addClass("aStyle").attr("href","#");
+            var iTrash = $("<i>").addClass("fa fa-trash");
+            var iUsd = $("<i>").addClass("fa fa-usd");
+            var iChange = $("<i>").addClass("fa fa-pencil-square-o");  
+                   //var human = treePerson.getSelectPerson();
+            
+            
+            var mavrodi = treeMMM.getRootPerson(); // хеш Мавроди
+            var mavrodiData = treeMMM.getPersonData(mavrodi); // полный объект Мавроди
+            var img = $("<img>").attr("src",mavrodiData.url).addClass("imgStyle");
+            var shift = treeMMM.getDeep(mavrodi)*25; // отступы для детей и внуков в дереве
+            shift = shift+"px";
+            //console.log(mavrodiData);
+            $(".tree").append 
+            (
+                    div // строим дивку с Мавроди
+                        .append(img).append((span).addClass("name").html(mavrodiData.name))
+                        .append((span.clone()).addClass("backs").html(mavrodiData.usd.toFixed(2) + '$'))
+                        .append((span.clone()).addClass("adress").html(mavrodiData.adress))
+                        .append((a).append(iTrash))
+                        .append( $("<a>").addClass("iUsdStyle").attr("href","#").append(iUsd) )
+                        .append( $("<a>").addClass("iChangeStyle").attr("href","#").append(iChange) ).css("margin-left",shift).attr("data-hash",mavrodi).data("name",mavrodiData.name)
+                        
+             );
+     
+             drawChildren(mavrodi);
+             
+             function drawChildren(hash) // рисуем человека после Мавроди
+             {
+                 
+                 var arr = treeMMM.getChildren(hash); // получаем массив хешей детей
+                 
+                 for (var i = 0; i<arr.length; i++)
+                 {
+                   // var sel = $("<option>");
+                    var div = $("<div>").addClass("borderDiv");
+                    var span = $("<span>");
+                    var a = $("<a>").addClass("aStyle").attr("href","#");
+                    var iTrash = $("<i>").addClass("fa fa-trash");
+                    var iUsd = $("<i>").addClass("fa fa-usd");
+                    var iChange = $("<i>").addClass("fa fa-pencil-square-o");  
+                     var img = $("<img>").attr("src",treeMMM.getPersonData(arr[i]).url).addClass("imgStyle");
+                     var shift = treeMMM.getDeep(arr[i])*25; // отступы для детей и внуков в дереве
+                     shift = shift+"px";
+                    // console.info("rrrr"+treeMMM.getParent(arr[i]))    
+                     var currentChildren = treeMMM.getPersonData(arr[i]);
+                     
+                     div // строим дивку с людями
+                        .append(img).append((span).addClass("name").html(currentChildren.name))
+                        .append((span.clone()).addClass("backs").html(currentChildren.usd.toFixed(2) + '$'))
+                        .append((span.clone()).addClass("adress").html(currentChildren.adress))
+                        .append((a).append(iTrash))
+                        .append( $("<a>").addClass("iUsdStyle").attr("href","#").append(iUsd) )
+                        .append( $("<a>").addClass("iChangeStyle").attr("href","#").append(iChange) ).css("margin-left",shift).attr("data-hash",arr[i]).data("name",currentChildren.name)
+                        .insertAfter ( $(".tree div[data-hash='" + treeMMM.getParent(arr[i]) + "']") );
+                
+                        drawChildren(arr[i]);    // рекурсия  - вызываем себя самоё для 
+                 }
+                 
+                 
+                 
+             }
+             
+           
+             
+             
+          // ------------------------ Функция модальное окно судьбы детей ------------------//    
+          
+          
+         $(".borderDiv .aStyle").on("click", function()
+         
+         {   
+             var r = "";
+             var p = "";
+             r = "Что делать с приведенными людьми удаляемой персоны: ";           
+             p = $(this).parent().data("name");  
+             $("#modal1").data("hash",$(this).parent().data("hash"));  // передаем хеш удаляемго чела в модальное окно, что бы потом его забрать когда будем отвечать на вопрос что деть с детьми
+            // var thisHash = $(this).parent().data("hash");
+             $("#modal1 .modal-body").html ( r + "<strong>"+ p+"</strong>"); 
+             $('#modal1').modal({"backdrop":"static"});
+             
+             $(".deleteChildren, .saveChildren").on("click",function()
+             {             
+                treeMMM.removePerson($("#modal1").data("hash"), $(this).hasClass("deleteChildren")); // получаем хеш из модального окна и судьбу детей получаем от возвращаемого результата функции hasClass
+                buildTree(treeMMM);
+             });     
+         });
+             
+        $(".iChangeStyle").on("click",function()                                    // работаем с редактированием персоны
+        {
+             $('#modal2').modal({"backdrop":"static"});                // вызываем второе модальное окно
+             
+             $("#exampleInputPhoto").val(treeMMM.getPersonData($(this).parent().data("hash")).url); // показываем в инпутах значения параметров (урл, имя, адрес) редактируемого человека
+             $("#exampleInputName").val(treeMMM.getPersonData($(this).parent().data("hash")).name);
+             $("#exampleInputAdres").val(treeMMM.getPersonData($(this).parent().data("hash")).adress);
+             
+             $("#modal2").data("hash",$(this).parent().data("hash"));  // записываем хеш в див модального окна для того что бы его взять на модальном окне
+             
+             $(".saveChangePerson").on("click", function()   // сохраняем внесенные в дереве изменения 
+             {
+                 treeMMM.changePerson(                         // меняме в дереве данные о персоне
+                    { 
+                     "name" : $("#exampleInputName").val(), 
+                     "url" : $("#exampleInputPhoto").val(), 
+                     "adress":$("#exampleInputAdres").val(),
+                     "usd": treeMMM.getPersonData($(this).parent().data("hash")).usd
+                    }, $("#modal2").data("hash"));
+                 
+                 buildTree(treeMMM);                 // перерисовываем дерево
+             });      
+        });
+             
+         $(".fa-usd").on("click",function()                                    // работаем с перераспределением дохода персоны
+        {
+             $('#modal3').modal({"backdrop":"static"});                // вызываем второе модальное окно
+             console.log('bla');
+             $("#inputBakses").val(''); // показываем в инпутах пустую строчку с к-вом денег редактируемого человека. TODO: сделать проверку, что вводимое - число
+                        
+             $("#modal3").data("hash",$(this).closest('.borderDiv').data("hash"));  // записываем хеш в див модального окна для того что бы его взять на модальном окне. .closest - ищет ближайший css-селектор по парентам
+             console.log( $("#modal3").data("hash"));
+      
+        });
+             
+ }
+         
+         
+                $(".saveChangeProfit").on("click", function()   // сохраняем внесенные в дереве изменения 
+             {
+              
+                treeMMM.changePerson(                         // меняме в дереве данные о персоне
+                    { 
+                     "name" : treeMMM.getPersonData($("#modal3").data("hash")).name, 
+                     "url" : treeMMM.getPersonData($("#modal3").data("hash")).url, 
+                     "adress" : treeMMM.getPersonData($("#modal3").data("hash")).adress,
+                     "usd" : parseFloat(treeMMM.getPersonData($("#modal3").data("hash")).usd) + parseFloat($("#inputBakses").val()), 
+                     }, $("#modal3").data("hash"));
+                                 
+                 recursionBaks($("#modal3").data("hash"),parseFloat($("#inputBakses").val()));
+                 
+                 function recursionBaks (hash, percent)//принимаем хеш человека, который заработал деньги, чтобы перераспределить доход
+                 {
+                    
+                     var objParent =  treeMMM.getParent(hash)
+                     if (objParent == null || 0.1*percent<0.01) return;                // рекурсия работает до тех пор, пока не дойдет до Мавродия у которого хеш начальника = null    
+                  
+                     treeMMM.changePerson(                         // меняме в дереве данные о персоне
+                    { 
+                     "name" : treeMMM.getPersonData(objParent).name, 
+                     "url" : treeMMM.getPersonData(objParent).url, 
+                     "adress" : treeMMM.getPersonData(objParent).adress,
+                     "usd" : parseFloat(treeMMM.getPersonData(objParent).usd) + percent * (0.1)
+                     }, objParent);
+                     recursionBaks(objParent, 0.1 * percent);                     
+                 };
+                 
+                 
+                 buildTree(treeMMM);                 // перерисовываем дерево
+             });      
+         
+         
+         
+         
+         
+         
+     }); 
+            
+            
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="myBorder col-md-3">
+                    <div id="div1">
+                       
+                    </div>
+                    
+                    <div class="parent">
+                        <select class="form-control chooseParent">
+                        <option selected value="0">No Parent</option>                        
+                        </select>                        
+                    </div>
+                    
+                    <div class = "buttonAdd">
+                     <button class="btn btn-primary">ADD</button>   
+                    </div>
+                </div>
+                <div class="col-md-9 tree">
+                    
+                </div>
+            </div>
+        </div>
+    
+        <!-- модальное окно судьбы детей -->
+        
+<div id="modal1" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Удаление персоны</h4>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default deleteChildren" data-dismiss="modal">Удалить</button>
+        <button type="button" class="btn btn-primary saveChildren" data-dismiss="modal">Переназначить</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div id="modal2" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Редактирование персоны</h4>
+      </div>
+      <div class="modal-body">
+          
+            <form>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Фото</label>
+                <input type="text" class="form-control" id="exampleInputPhoto" placeholder="Фото">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Имя</label>
+                <input type="text" class="form-control" id="exampleInputName" placeholder="Имя">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword3">Адрес</label>
+                <input type="text" class="form-control" id="exampleInputAdres" placeholder="Адрес">
+              </div>
+            </form>   
+          
+      </div>
+      <div class="modal-footer">
+         <button type="submit" class="btn btn-default" data-dismiss="modal">Отмена</button>
+        <button type="submit" class="btn btn-primary saveChangePerson" data-dismiss="modal">Сохранить</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+    
+<div id="modal3" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Редактирование персоны</h4>
+      </div>
+      <div class="modal-body">
+          
+            <form>
+              <div class="form-group">
+                <label for="Baks">Заработок</label>
+                <input type="text" class="form-control" id="inputBakses" placeholder="Введите заработок">
+              </div>
+            
+            </form>   
+          
+      </div>
+      <div class="modal-footer">
+         <button type="submit" class="btn btn-default" data-dismiss="modal">Отмена</button>
+        <button type="submit" class="btn btn-primary saveChangeProfit" data-dismiss="modal">Сохранить</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+   <script>
+       
+       function unitTest()
+       {
+      //------------ Проверка добавления чела в пирамиду ------//
+
+               var a = new MMMTree();
+               var b = a.addPerson(persons[0],8437834563865);
+               var c = a.addPerson(persons[0]);
+               var d = a.addPerson(32445345345);
+               var e = a.addPerson(persons[9],456546567567);
+               var f = a.addPerson();  
+               var g = a.addPerson(persons[0],null); // Мавроди
+               var i = a.addPerson(persons[3],g);
+               var k = a.addPerson(persons[1],null);
+               
+               console.assert(b===false, "error b");
+               console.assert(c===false, "error c"); 
+               console.assert(d===false, "error d");
+               console.assert(e===false,"error e");
+               console.assert(f===false,"error f");
+               console.assert(((typeof  g === "string" ) && g.length > 0),"error g");
+               console.assert(((typeof  i === "string") && i.length > 0),"error i");
+               console.assert(k===false, "error k");
+               
+               
+               
+               //------------ Проверка удаления чела с пирамиды c детями и внуками------//
+               
+               var aa = new MMMTree();
+               var g = aa.addPerson(persons[0],null); // Мавроди
+               var l = aa.addPerson(persons[1],g); // второй чел после Мавроди
+               var i = aa.addPerson(persons[2],l); // третий чел после Мвроди
+               var k = aa.addPerson(persons[3],i); // четвертый чел после Мвроди
+                
+              
+               var del = aa.removePerson(l,true); //удаляем второго чела с детями;               
+               console.assert(del===true, "error del");
+               var as = aa.getPersonData(l);
+               console.assert(as === undefined, "error as");
+               var ass = aa.getPersonData(i);
+               console.assert(ass === undefined, "error ass");
+               var asss = aa.getPersonData(k);
+               console.assert(asss === undefined, "error asss");
+               
+               
+               //------------ Проверка удаления Мавроди с пирамиды ------//
+               
+               var aaa = new MMMTree();
+               var g = aaa.addPerson(persons[0],null); // Мавроди
+               var l = aaa.addPerson(persons[1],g); // второй чел после Мавроди
+               
+                             
+               var del = aaa.removePerson(g,true); //удаляем Мавроди с детями;               
+               console.assert(del===true, "error del");
+               var aas = aaa.getPersonData(g);
+               var as = aaa.getPersonData(l);
+               console.assert(as === undefined, "error as");
+               console.assert(aas === undefined, "error aas");
+               
+               
+                //------------ Проверка удаления Мавроди без детей пирамиды ------//
+               
+               var aaaa = new MMMTree();
+               var g = aaaa.addPerson(persons[0],null); // Мавроди
+               var l = aaaa.addPerson(persons[1],g); // второй чел после Мавроди
+               
+                             
+               var del = aaaa.removePerson(g,false); //удаляем Мавроди с детями;               
+               console.assert(del===true, "error del");
+               var aas = aaaa.getPersonData(g);
+               var as = aaaa.getPersonData(l);
+               console.assert(as!== undefined, "error as");
+               console.assert(aas === undefined, "error aas");
+               
+               
+               //------------ Проверка удаления нихрены с пирамиды ------//
+               
+               var aaaaa = new MMMTree();
+               var g = aaaaa.addPerson(persons[0],null); // Мавроди
+               var l = aaaaa.addPerson(persons[1],g); // второй чел после Мавроди
+                             
+               var del = aaaaa.removePerson("dgfdg","false"); //удаляем нихрену;               
+               console.assert(del!==true, "error del");
+               var aas = aaaaa.getPersonData(g);
+               var as = aaaaa.getPersonData(l);
+               console.assert(as!== undefined, "error as");
+               console.assert(aas !== undefined, "error aas");
+               
+               
+               
+                      //------------ Проверка кто родитель ------//
+               
+               var aaaaaa = new MMMTree();
+               var g = aaaaaa.addPerson(persons[0],null); // Мавроди
+               var l = aaaaaa.addPerson(persons[1],g); // второй чел после Мавроди
+                             
+               var rod = aaaaaa.getParent(l);
+               console.assert(rod==g, "error rod");
+               
+               var rod = aaaaaa.getParent(g);
+               console.assert(rod==null, "error rod");
+               
+               var rod = aaaaaa.getParent("gddd");
+               console.assert(rod==undefined, "error rod");
+               
+               
+                      //------------ Проверка кто Мавродий ------//
+               
+               var aaaaaaa = new MMMTree();
+               var g = aaaaaaa.addPerson(persons[0],null); // Мавроди
+               var l = aaaaaaa.addPerson(persons[1],g); // второй чел после Мавроди
+                             
+               var rod = aaaaaaa.getRootPerson();
+               console.assert(rod==g, "error rod");
+               aaaaaaa.removePerson(g,true);
+               var rod = aaaaaaa.getRootPerson();
+               console.assert(rod==undefined, "error rod2");
+               
+               
+               
+    //------------ Замена человека на другого ------//
+               
+               var aaaaaaaa = new MMMTree();
+               var g = aaaaaaaa.addPerson(persons[0],null); // Мавроди
+               var l = aaaaaaaa.addPerson(persons[1],g); // второй чел после Мавроди
+                           
+               var change = aaaaaaaa.changePerson({"name":"LALA"},l);
+               var sas = aaaaaaaa.getPersonData(l); 
+               console.assert(sas.name=="LALA", "error rod");
+               
+               var change = aaaaaaaa.changePerson({"Name":"LALA"},"dgtrhrth");
+               console.assert(change==false, "error rod");
+               
+               
+                   //------------ Возвращаем всех детей ------//
+               
+               var aaaaaaaaa = new MMMTree();
+               var g = aaaaaaaaa.addPerson(persons[0],null); // Мавроди
+               var l = aaaaaaaaa.addPerson(persons[1],g); // второй чел после Мавроди
+               var i = aaaaaaaaa.addPerson(persons[2],g); // третий чел после Мвроди
+                           
+               var child = aaaaaaaaa.getChildren("figi");
+               console.assert(child==false, "error child");
+                                             
+               var child = aaaaaaaaa.getChildren(g);
+               console.assert(child.length==2, "error child");
+               
+               aaaaaaaaa.removePerson(l,true);
+               aaaaaaaaa.removePerson(i,true);
+               var child = aaaaaaaaa.getChildren(g);
+               console.assert(child.length==0, "error child");
+               
+               
+               
+               //------------ Возвращаем глубину человека ------//
+               
+               var aaaaaaaaaa = new MMMTree();
+               var g = aaaaaaaaaa.addPerson(persons[0],null); // Мавроди
+               var l = aaaaaaaaaa.addPerson(persons[1],g); // второй чел после Мавроди
+               var i = aaaaaaaaaa.addPerson(persons[2],l); // третий чел после Мвроди
+                           
+               var child = aaaaaaaaaa.getDeep("figi");
+               console.assert(child==false, "error child");
+                                             
+               var child = aaaaaaaaaa.getDeep(i);
+               console.assert(child==2, "error child");
+               
+               var child = aaaaaaaaaa.getDeep(g);
+               console.assert(child==0, "error child"); 
+           }
+           
+              </script>
+              
+              </body>
+</html>

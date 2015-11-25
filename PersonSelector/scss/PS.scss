@@ -1,0 +1,48 @@
+@mixin borderDiv
+{
+    
+    margin-right: 10px;
+    padding: 10px;
+}
+
+.personSelector_add
+{
+    
+    @include borderDiv;
+    width: 600px;
+    border: 1px dashed black;
+   
+}
+
+.personRow .brakozyaka
+{
+    width: 60px;
+     
+}
+
+#personSelectorModal p
+{
+    max-height: 400px;
+    overflow-y: auto;
+    
+     
+}
+
+#personSelectorModal .personRow
+{
+    margin-left: 10px;
+    @include borderDiv;
+    border-bottom: 1px solid lightgray; 
+    cursor:pointer; 
+     
+}
+
+#personSelectorModal .active
+{
+    background-color: #ffffcc;
+}
+
+body
+{
+    margin: 30px;
+}

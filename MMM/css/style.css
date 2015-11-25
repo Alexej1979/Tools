@@ -1,0 +1,29 @@
+.buttonAdd, .parent {
+  margin-top: 15px; }
+
+.myBorder {
+  border-right: 1px solid lightgray; }
+
+.imgStyle {
+  width: 60px; }
+
+.name {
+  margin-left: 15px; }
+
+.borderDiv {
+  padding: 5px 0 5px 0;
+  border-bottom: 1px solid lightgray; }
+
+.aStyle {
+  margin-left: 15px;
+  color: red; }
+
+.iUsdStyle {
+  margin-left: 15px;
+  color: green; }
+
+.iChangeStyle {
+  margin-left: 15px;
+  color: blue; }
+
+/*# sourceMappingURL=style.css.map */

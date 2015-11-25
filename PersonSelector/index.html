@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!-- Задача: сделать библиотеку для html компонента выбора человека: которая представляет интерфейс для работы с базой людей; предоставляется интерфейс взаимодействия в виде методов 
+
+Этот ХТМЛ файл - пишет ВАСЯ, который будет работать с нашей бибилотекой, которая состоит из js и css файла. Мы его пишем для теста нашей библиотеки.-->
+<html>
+    <head>   
+        <title></title>        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> 
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="css/PS.css">
+        <script src="js/PS.js"></script>        
+        <script> 
+            $(function()
+            {
+                
+                // это объект с людями, который по хорошему дается с сервера по аджакс запросу ВАСИ
+            var persons = [  
+                            {"url": "http://www.tvchoicemagazine.co.uk/sites/default/files/imagecache/interview_image/intex/michael_emerson.png",
+                               "name": "Alex",
+                               "adress": "Kiev" 
+                            },
+
+                            {"url": "http://ralfweiser.files.wordpress.com/2012/10/ralf-a6.jpg",
+                               "name": "Ralf",
+                               "adress": "Odessa" 
+                            },
+
+                            {  "url": "http://www.firstpersonarts.org/wp-content/uploads/2010/08/Soledad-new-headshot-7-073.jpg",
+                               "name": "Mona",
+                               "adress": "Lisa" 
+                            },
+                            {  "url": "http://www.firstpersonarts.org/wp-content/uploads/2010/08/Soledad-new-headshot-7-073.jpg",
+                               "name": "FFFF",
+                               "adress": "UUUU" 
+                            }
+                          ];
+            var k = $("#div1");
+            var k1 = $("#div2");
+            var a = new PersonSelector(k); // функция которая показывает нашу библитеку в указанном Васей месте хтмл страницы
+            var b = new PersonSelector(k1);
+          //  console.log("в начале getCount="+a.getCount()); //a.getCount метод функции PersonSelector, который считает количество людей
+            
+            for (var i = 0; i<persons.length; i++) 
+            {
+               if (i<2)
+               {
+              a.addPerson(persons[i]);// здесь мы загоняем людей в нашу библиоетку
+               }
+               
+               else
+               {
+                   b.addPerson(persons[i]);// здесь мы загоняем людей в нашу библиоетку
+               }
+               
+            }
+            
+         /*   a.addPerson(persons[2],30); // метод, позволяющий добавить нового человека на произвольное место в списке. 30 - номер в массиве, если номер больше чем длинна массива, то ничего не происходит
+            console.log("после добавления всех getCount="+a.getCount());
+           
+            // a.removePerson("Mona"); // метод, позволяющий удалять человека со списка по его имени
+            console.log("после удаления одного getCount="+a.getCount());   
+                    
+          setTimeout(function(){ console.log(a.getSelectPerson()); }, 10000);
+           
+          // a.setSelectPerson("Mona"); // метод, позволяющий выбрать нужного человека со списка
+          
+            /*a.promise().done(function ()
+            {
+                console.log("проверка промиса");
+            });*/
+        
+        //a.setSelectPerson("Mona");
+                //a.removePerson("Alex");
+        //console.log(a.getSelectPerson());
+        
+        a.getPromise().done(function() 
+        { 
+          //  console.log(a.getSelectPerson());
+           console.log("kluiklui"); 
+        });
+        
+        var a = "alEx";
+        console.log("alex = "+a.pretty());
+        
+    });
+            
+        </script>
+    </head>
+    <body>
+        <div id="div1">
+           
+        </div>
+        <br>
+        <div id="div2">
+            
+        </div>
+    </body>
+</html>
